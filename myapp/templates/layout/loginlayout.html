@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>Document</title>{% endblock %}
+    <link href="{% static 'css/tailwind.min.css'%}" rel="stylesheet">
+    {% block plugin_css %}
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'plugins/font-awesome/css/font-awesome.min.css' %}">
+    <!-- <link href="{% static 'css/demo.css'%}" rel="stylesheet"> -->
+    <link href="{% static 'css/style_modal.css'%}" rel="stylesheet">
+    {% endblock %}
+    {% block css %}
+    {% endblock %}
+
+
+</head>
+
+<body>
+    <div class="bg-gray-100 flex justify-center items-center h-screen">
+        <!-- Left: Image -->
+        <div class="w-1/2 h-screen hidden lg:block">
+            <img src="https://placehold.co/800x/667fff/ffffff.png?text=Your+Image&font=Montserrat"
+                alt="Placeholder Image" class="object-cover w-full h-full">
+        </div>
+        <!-- Right: Login Form -->
+        <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+
+            {% block form_title %}<h1 class="text-2xl font-semibold mb-4">Login</h1>{% endblock %}
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <!-- Username Input -->
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-600">Username</label>
+                    <!-- <input type="text" id="username" name="username"
+                        class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                        autocomplete="off"> -->
+                    {% block username %}{% endblock %}
+                </div>
+                <!-- Password Input -->
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-600">Password</label>
+                    {% block password %}{% endblock %}
+                </div>
+                {% if register %}
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-600">Confirm Password</label>
+                    {% block confirm %}{% endblock %}
+                </div>
+                {% endif %}
+                {% block remember_me %}
+                <div class="mb-4 flex items-center">
+                    <input type="checkbox" id="remember" name="remember" class="text-blue-500">
+                    <label for="remember" class="text-gray-600 ml-2">Remember Me</label>
+                </div>
+                {% endblock %}
+                {% block extra %}
+                <div class="mb-6 text-blue-500">
+                    <a href="#" class="hover:underline">Forgot Password?</a>
+                </div>
+                {% endblock %}
+                {% block confirm_button %}
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">Login</button>
+                {% endblock%}
+            </form>
+            {% block link %}
+            <div class="mt-6 text-blue-500 text-center">
+                <a href="#" class="hover:underline">Sign up Here</a>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/hullabaloo.js' %}"></script>
+    {% block js %}
+    {% endblock %}
+</body>
+
+</html>

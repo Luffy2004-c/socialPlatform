@@ -1,0 +1,124 @@
+{% extends 'layout/blank-page.html' %}
+{% load static %}
+{% block title %}
+<title>用户设置</title>
+{% endblock %}
+
+{% block plugin_css %}
+<link rel="stylesheet" href="{% static 'css/jquery-jvectormap.css' %}">
+<link rel="stylesheet" href="{% static 'css/flag-icon.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+<link href="{% static 'css/tailwind.min.css'%}" rel="stylesheet">
+{% endblock %}
+{% block layout_styles %}
+<link rel="stylesheet" href="{% static 'css/style_index.css' %}">
+{% endblock %}
+{% block css %}
+<style>
+    /* 右边滚动条样式 */
+    ::-webkit-scrollbar {
+        width: 8px;
+        /* 滚动条宽度 */
+        background-color: transparent;
+        /* 背景透明 */
+    }
+
+    /* 滚动条滑块 */
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.5);
+        /* 滑块颜色，这里设置半透明黑色 */
+        border-radius: 4px;
+        /* 滑块圆角 */
+    }
+
+    /* 鼠标悬停时滑块样式 */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+        /* 悬停时颜色变深 */
+    }
+</style>
+{% endblock %}
+{% block main %}
+<div class="page-header">
+    <h3 class="page-title"> User Setting </h3>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Setting</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">User Setting </h4>
+                <p class="card-description"> </p>
+                <form action="{% url 'setting' %}" method="post" class="forms-sample" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputName1">Name</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Email</label>
+                        <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleSelectGender">Gender</label>
+                        <select class="form-control" id="exampleSelectGender">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Avatar</label>
+                        <input type="file" name="img[]" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled=""
+                                placeholder="Upload Image">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea1">desc</label>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-dark">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+
+
+{% block js_plugins %}
+<script src="{% static 'js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+{% endblock %}
+{% block js_for_thispage %}
+<script src="{% static 'js/Chart.min.js' %}"></script>
+<script src="{% static 'js/progressbar.min.js' %}"></script>
+<script src="{% static 'js/jquery-jvectormap.min.js' %}"></script>
+<script src="{% static 'js/jquery-jvectormap-world-mill-en.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/bulma_modal_show.js' %}"></script>
+<script src="{% static 'js/file-upload.js' %}"></script>
+{% endblock %}
+
+{% block js_constom %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
+{% block js %}
+{% endblock %}

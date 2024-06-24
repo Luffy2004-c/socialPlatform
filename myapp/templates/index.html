@@ -1,0 +1,243 @@
+{% extends 'layout/blank-page.html' %}
+{% load static %}
+{% block title %}
+<title>首页</title>
+{% endblock %}
+
+{% block plugin_css %}
+<link rel="stylesheet" href="{% static 'css/jquery-jvectormap.css' %}">
+<link rel="stylesheet" href="{% static 'css/flag-icon.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+<link href="{% static 'css/tailwind.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'plugins/font-awesome/css/font-awesome.min.css' %}">
+<link href="{% static 'css/style_modal.css'%}" rel="stylesheet">
+{% endblock %}
+{% block css %}
+<style>
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-12 col-xl-8 grid-margin stretch-card">
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">动态</h4>
+
+                <div class="owl-carousel owl-theme full-width owl-carousel-dash portfolio-carousel"
+                    id="owl-carousel-basic">
+                    <div class="item">
+                        <div class="d-flex py-4">
+                            <div class="preview-list w-100">
+                                <div class="preview-item p-0">
+                                    <div class="preview-thumbnail">
+                                        <img src="{% static ' picture/luffy.jpg '%}" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="preview-item-content d-flex flex-grow">
+                                        <div class="flex-grow">
+                                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                                                <h6 class="preview-subject">CeeCee Bass</h6>
+                                                <p class="text-muted text-small">4 Hours Ago</p>
+                                            </div>
+                                            <p class="text-muted">Well, it seems to be working now.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="{% static 'picture/Img_5.jpg' }" alt="">
+                    </div>
+                    <div class="item">
+                        <div class="d-flex py-4">
+                            <div class="preview-list w-100">
+                                <div class="preview-item p-0">
+                                    <div class="preview-thumbnail">
+                                        <img src="static/picture/face12.jpg" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="preview-item-content d-flex flex-grow">
+                                        <div class="flex-grow">
+                                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                                                <h6 class="preview-subject">CeeCee Bass</h6>
+                                                <p class="text-muted text-small">4 Hours Ago</p>
+                                            </div>
+                                            <p class="text-muted">Well, it seems to be working now.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="{% static 'picture/img_6.jpg' %}" alt="">
+                    </div>
+                    {% for dynamic in dynamics %}
+                    <div class="item">
+                        <div class="d-flex py-4">
+                            <div class="preview-list w-100">
+                                <div class="preview-item p-0">
+                                    <div class="preview-thumbnail">
+                                        <img src="{% static 'picture/luffy.jpg'%}" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="preview-item-content d-flex flex-grow">
+                                        <div class="flex-grow">
+                                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                                                <h6 class="preview-subject">{{dynamic.user.username}}</h6>
+                                                <p class="text-muted text-small">{{dynamic.created_at|date:"Y-m-d"}}</p>
+                                            </div>
+                                            <p class="text-muted">{{dynamic.content}}.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="{% static 'picture/img_6.jpg' %}" alt="">
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4 grid-margin stretch-card" id="comment">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-row justify-content-between">
+                    <h4 class="card-title">Commends</h4>
+                    <p class="text-muted mb-1 small">View all</p>
+                </div>
+                <div class="preview-list">
+                    {% for comment in comments %}
+                    <div class="preview-item border-bottom">
+                        <div class="preview-thumbnail cursor-pointer addfriend" id="{{comment.user_id}}">
+                            <img src="{% static 'picture/luffy.jpg' %}" alt="image" class="rounded-circle">
+                        </div>
+                        <div class="preview-item-content d-flex flex-grow w-3/4">
+                            <div class="flex-grow">
+                                <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                                    <h6 class="preview-subject">{{comment.user.username}}</h6>
+                                    <p class="text-muted text-small">{{comment.created_at|date:"Y-m-d"}}</p>
+                                </div>
+                                <p class="text-muted">{{comment.content}}<a
+                                        href={{comment.dynamics_id}}>#{{comment.dynamics|slice:"0:10" }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+
+
+
+    {% block js_plugins %}
+    <script src="{% static 'js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'js/jquery-3.6.0.min' %}"></script>
+    {% endblock %}
+    {% block js_for_thispage %}
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/progressbar.min.js' %}"></script>
+    <script src="{% static 'js/jquery-jvectormap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/bulma_modal_show' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/hullabaloo.js' %}"></script>
+    {% endblock %}
+
+    {% block js_constom %}
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% endblock %}
+    {% block js %}
+    <script>
+        const $modal = $('#replymodal')
+        const btn_type = { "添加": "add", "聊天": "chat" };
+
+        $hulla.send("欢迎您的访问！", "success");
+        $(function () {
+            bindmodal();
+        })
+
+        var is_confirm = false;
+
+        function bindmodal() {
+            $(".addfriend").click(function () {
+                var modalId = $(this).attr("id");
+                $modal.modal('show');
+                modalurl = "/friend/add/" + modalId;
+                console.log(modalurl);
+                $.ajax({
+                    url: modalurl,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            $hulla.send(res.message["content"], res.message["type"]);
+                            var $confirm = $("#replymodal .confirm ")
+                            $('#replymodal .p-4 p').html(res.message["content"]);
+                            $confirm.text(res.button).attr("data", btn_type[res.button]);
+                            if (!is_confirm) {
+                                listen_confirm($confirm, modalId);
+                                is_confirm = true;
+                            }
+
+                        }
+
+                    }
+
+                })
+
+            })
+        }
+        function listen_confirm(btn, id) {
+            // 将事件处理函数定义为一个命名函数，以便稍后能够移除它
+            function clickHandler(event) {
+                event.preventDefault();
+                var type = $(this).attr("data");
+                confirmAction(type, id);
+
+                // 在处理完一次点击后，移除事件监听器
+                $(btn).off("click", clickHandler);
+            }
+
+            // 添加点击事件监听器
+            $(btn).on("click", clickHandler);
+        }
+        function closeModal() {
+            $modal.modal('hide');
+        }
+        function confirmAction(type, id) {
+            //type有两种:聊天与添加好友
+            console.log(type, id)
+            if (type == "chat") {
+                var redirecturl = "/chat/?id=" + id;
+                location.href = modalurl;
+            }
+            if (type == "add") {
+                var modalId = $(this).attr("id");
+                var addurl = "/friend/add/" + id;
+                $.ajax({
+                    url: addurl,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            $hulla.send("已成功发送请求", "success");
+                            closeModal();
+                            is_confirm = false;
+                        }
+                    },
+                    error: function (res) {
+                        $hulla.send("添加失败", "error");
+                        is_confirm = false;
+                    }
+                })
+            }
+        }
+    </script>
+
+    {% endblock %}
