@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from myapp.models import Dynamics, Comment
+from myapp.models import Dynamics, Comment, User
 from django.db.models import Q
 
 
 def index(request):
-    context: dict = {"user": request.tracer["user"], "active_menu": "dynamic"}
+    user: User = request.tracer["user"]
+    context: dict = {
+        "user": user,
+        "active_menu": "dynamic",
+        "recent_messages": user.get_recent_messages(),
+    }
     if request.method == "GET":
         dynamics = Dynamics.objects.filter(
             Q(is_public=1)

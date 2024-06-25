@@ -57,36 +57,30 @@
                 <p class="card-description"> </p>
                 <form action="{% url 'setting' %}" method="post" class="forms-sample" enctype="multipart/form-data">
                     {% csrf_token %}
+
                     <div class="form-group">
-                        <label for="exampleInputName1">Name</label>
-                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail3">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                        <label for="exampleInputName1">{{form.username.label}}</label>
+                        {{form.username}}
                     </div>
 
                     <div class="form-group">
-                        <label for="exampleSelectGender">Gender</label>
-                        <select class="form-control" id="exampleSelectGender">
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
+                        <label>{{form.email.label}}</label>
+                        {{form.email}}
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleSelectGender">{{form.gender.label}}</label>
+                        {{form.gender}}
                     </div>
                     <div class="form-group">
-                        <label>Avatar</label>
-                        <input type="file" name="img[]" class="file-upload-default">
-                        <div class="input-group col-xs-12">
-                            <input type="text" class="form-control file-upload-info" disabled=""
-                                placeholder="Upload Image">
-                            <span class="input-group-append">
-                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                            </span>
-                        </div>
+                        <label>{{form.avatar.label}}</label>
+                        {{form.avatar}}
+
                     </div>
                     <div class="form-group">
-                        <label for="exampleTextarea1">desc</label>
-                        <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+                        <label for="exampleTextarea1">{{form.desc.label}}</label>
+                        {{form.desc}}
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-dark">Cancel</button>

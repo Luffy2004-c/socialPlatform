@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from myapp.models import User
 from django import forms
-from .ui_form import BootstrapForm
+from .ui_form import BootstrapForm, CssForm
 from common.encrypt import encrypt
 
 
@@ -54,3 +54,9 @@ class LoginModelForm(BootstrapForm, forms.ModelForm):  # 用户登录表单
     class Meta:
         model = User
         fields = ["username", "password"]
+
+
+class UserEditForm(CssForm, forms.ModelForm):  # 用户编辑表单
+    class Meta:
+        model = User
+        fields = ["username", "email", "avatar", "gender", "desc"]

@@ -56,7 +56,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <img src="{% static 'picture/luffy.jpg' %}" alt="image">
+                                    <img src="{{ MEDIA_URL }}{{ friend.to_user.avatar }}" alt="image">
                                     <span class="pl-2">{{friend.to_user.username}}</span>
                                 </td>
                                 <td>{{friend.to_user.email}}</td>
@@ -85,7 +85,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <img src="{% static 'picture/luffy.jpg' %}" alt="image">
+                                    <img src="{{ MEDIA_URL }}{{ friend.from_user.avatar }}" alt="image">
                                     <span class="pl-2">{{friend.from_user.username}}</span>
                                 </td>
                                 <td>{{friend.from_user.email}}</td>

@@ -53,6 +53,12 @@ class User(BaseModel, AbstractUser):
         # 获取用户和最近的历史记录
         return friend_list
 
+    def get_recent_messages(self) -> List["PrivateMessage"]:
+        messages = PrivateMessage.objects.filter(recipient=self).order_by(
+            "-created_at"
+        )[:4]
+        return messages
+
     def get_friendApplicationList(self) -> List[User] | None:
         return self.friend_requests_received.all()
 

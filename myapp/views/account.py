@@ -4,7 +4,7 @@ from django.forms.forms import BaseForm
 from myapp.models import User
 from django.shortcuts import render, redirect, HttpResponse
 from django.http import HttpRequest, JsonResponse
-from myapp.forms.user_form import RegisterModelForm, LoginModelForm
+from myapp.forms.user_form import RegisterModelForm, LoginModelForm, UserEditForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from common.encrypt import encrypt
@@ -53,5 +53,16 @@ def logout(request):  # 退出账号
 def setting(request):
     user = request.tracer["user"]
     context = {"user": user, "active_menu": "setting"}
-    if request.method == "GET":
+    if request.method == "POST":
+        print(request.POST)
+        print(request.FILES)
+        form = UserEditForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("/index")
+        else:
+            return HttpResponse(form.errors.as_json())
+    else:
+        form = UserEditForm(instance=user)
+        context["form"] = form
         return render(request, "setting.html", context)
