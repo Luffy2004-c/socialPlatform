@@ -16,6 +16,11 @@
   <link rel="stylesheet" href="{% static 'css/style_index.css' %}">
   {% endblock %}
   {% block css %}
+  <style>
+    .love-color {
+      color: red;
+    }
+  </style>
   {% endblock %}
 </head>
 
@@ -44,6 +49,131 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+  {% endblock %}
+  {% block bulma-modal %}
+  <div class="modal modal-bulma {{is_active}}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">动态详情</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="bg-gray-100 flex items-center justify-center content">
+          <div class="bg-white p-8 rounded-lg shadow-md max-w-md">
+            <!-- User Info with Three-Dot Menu -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-2">
+                <img src="{{MEDIA_URL}}{{dynamics_click.user.avatar}}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                <div>
+                  <p class="text-gray-800 font-semibold">{{dynamics_click.user.username}}</p>
+                  <p class="text-gray-500 text-sm">{{dynamics_click.created_at|time_ago}}</p>
+                </div>
+              </div>
+              <div class="text-gray-500 cursor-pointer">
+                <!-- Three-dot menu icon -->
+                <button class="hover:bg-gray-50 rounded-full p-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="7" r="1" />
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="12" cy="17" r="1" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Message -->
+            <div class="mb-4">
+              <p class="text-gray-800">{{dynamics_click.content}}
+                {% for tag in package.tags %}
+                <a href="#" class="text-blue-600">#{{tag.name}}</a>
+                {% endfor %}
+              </p>
+            </div>
+            <!-- Image -->
+            <div class="mb-4">
+              <img src="{% static 'picture/img_6.jpg '%}" alt="Post Image" class="w-full h-48 object-cover rounded-md">
+            </div>
+            <!-- Like and Comment Section -->
+            <div class="flex items-center justify-between text-gray-500">
+              <div class="flex items-center space-x-2">
+                <button class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1 like-btn "
+                  data-id="{{dynamics_click.id}}">
+                  {% if is_like_user %}
+                  <svg class="w-5 h-5 fill-current love-sign love-color" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24" data-status="Y">
+                    <path
+                      d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                  {% else %}
+                  <svg class="w-5 h-5 fill-current love-sign" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    data-status="N">
+                    <path
+                      d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                  {% endif %}
+                  <span class="like-count">{{package.likes_count}} Likes</span>
+                </button>
+              </div>
+              <button class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1 comment-btn">
+                <svg width="22px" height="22px" viewBox="0 0 24 24" class="w-5 h-5 fill-current "
+                  xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22ZM8 13.25C7.58579 13.25 7.25 13.5858 7.25 14C7.25 14.4142 7.58579 14.75 8 14.75H13.5C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25H8ZM7.25 10.5C7.25 10.0858 7.58579 9.75 8 9.75H16C16.4142 9.75 16.75 10.0858 16.75 10.5C16.75 10.9142 16.4142 11.25 16 11.25H8C7.58579 11.25 7.25 10.9142 7.25 10.5Z">
+                    </path>
+                  </g>
+                </svg>
+                <span>{{package.comments_count}} Comment</span>
+              </button>
+            </div>
+            <hr class="mt-2 mb-2">
+            <p class="text-gray-800 font-semibold">Comment</p>
+            <hr class="mt-2 mb-2">
+            <div class="mt-4 comment-container">
+              <!-- Comment 1 -->
+              {% for comment in package.comments %}
+              <div class="flex items-center space-x-2 mt-2 border-b border-gray-200 pb-2">
+                <img src="{{MEDIA_URL}}{{comment.parent.user.avatar}}" alt="User Avatar" class="w-6 h-6 rounded-full">
+                <div class="flex-1">
+                  <p class="text-gray-800 font-semibold">{{comment.parent.user.username}}</p>
+                  <p class="text-gray-500 text-sm">{{comment.parent.content}}</p>
+                </div>
+                <button class="text-blue-500 text-xs reply-btn " data-id="{{comment.parent.id}}"
+                  data-user="{{comment.parent.user.username}}">回复</button>
+              </div>
+              {% for child in comment.childs %}
+              <div class="flex items-center space-x-2 mt-2 ml-6 border-b border-gray-200 pb-2">
+                <img src="{{MEDIA_URL}}{{child.user.avatar}}" alt="User Avatar" class="w-6 h-6 rounded-full">
+                <div class="flex-1">
+                  <p class="text-gray-800 font-semibold">
+                    {{child.user.username}} -回复-> {{child.parent.user.username}}
+                  </p>
+                  <p class="text-gray-500 text-sm">{{child.content}}</p>
+                </div>
+                <button class="text-blue-500 text-xs reply-btn " data-id="{{child.id}}"
+                  data-user="{{child.user.username}}">回复</button>
+              </div>
+              {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+      </section>
+      <footer class="modal-card-foot">
+        <span class="icon is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <input class="input is-primary w-3/4 send-input" type="text" placeholder="发出你的第一条评论吧！" />
+        <div class="level-right">
+          <div class="level-item">
+            <a class="button is-info send-btn" data-type="send">发送</a>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
   {% endblock %}
@@ -227,7 +357,8 @@
                       <i class="mdi mdi-file-outline text-primary"></i>
                     </div>
                   </div>
-                  <div class="preview-item-content">Create Groups</p>
+                  <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1">创建群组</p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -237,7 +368,8 @@
                       <i class="mdi mdi-web text-info"></i>
                     </div>
                   </div>
-                  <div class="preview-item-content">Create Activity</p>
+                  <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1">创建活动</p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -248,7 +380,8 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1">其他。</p>
+
+                    <p class="preview-subject ellipsis mb-1">发布动态</p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -280,9 +413,10 @@
                     <p class="text-muted mb-0">{{message.send_at|time_ago}}</p>
                   </div>
                 </a>
-
+                {% endfor %}
                 <div class="dropdown-divider"></div>
-                <p class="p-3 mb-0 text-center">4 new messages</p>
+                <p class="p-3 mb-0 text-center">{{ messages|length|add:1 }} new messages</p>
+
               </div>
             </li>
             <li class="nav-item dropdown border-left">
@@ -403,6 +537,14 @@
         }
       });
     })
+    function parseUrl_by_key(key) {
+      var queryString = window.location.search;
+
+      var urlParams = new URLSearchParams(queryString);
+
+      var value = urlParams.get(key);
+      return value;
+    }
 
   </script>
   {% block js %}

@@ -1,5 +1,6 @@
 {% extends 'layout/blank-page.html' %}
 {% load static %}
+{% load date_filter %}
 {% block title %}
 <title>首页</title>
 {% endblock %}
@@ -13,10 +14,7 @@
 <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'plugins/font-awesome/css/font-awesome.min.css' %}">
 <link href="{% static 'css/style_modal.css'%}" rel="stylesheet">
-{% endblock %}
-{% block css %}
-<style>
-</style>
+<link href="{% static 'css/bulma.min.css'%}" rel="stylesheet">
 {% endblock %}
 
 {% block main %}
@@ -29,50 +27,8 @@
 
                 <div class="owl-carousel owl-theme full-width owl-carousel-dash portfolio-carousel"
                     id="owl-carousel-basic">
-                    <div class="item">
-                        <div class="d-flex py-4">
-                            <div class="preview-list w-100">
-                                <div class="preview-item p-0">
-                                    <div class="preview-thumbnail">
-                                        <img src="{% static ' picture/luffy.jpg '%}" class="rounded-circle" alt="">
-                                    </div>
-                                    <div class="preview-item-content d-flex flex-grow">
-                                        <div class="flex-grow">
-                                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                                                <h6 class="preview-subject">CeeCee Bass</h6>
-                                                <p class="text-muted text-small">4 Hours Ago</p>
-                                            </div>
-                                            <p class="text-muted">Well, it seems to be working now.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="{% static 'picture/Img_5.jpg' }" alt="">
-                    </div>
-                    <div class="item">
-                        <div class="d-flex py-4">
-                            <div class="preview-list w-100">
-                                <div class="preview-item p-0">
-                                    <div class="preview-thumbnail">
-                                        <img src="static/picture/face12.jpg" class="rounded-circle" alt="">
-                                    </div>
-                                    <div class="preview-item-content d-flex flex-grow">
-                                        <div class="flex-grow">
-                                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                                                <h6 class="preview-subject">CeeCee Bass</h6>
-                                                <p class="text-muted text-small">4 Hours Ago</p>
-                                            </div>
-                                            <p class="text-muted">Well, it seems to be working now.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="{% static 'picture/img_6.jpg' %}" alt="">
-                    </div>
                     {% for dynamic in dynamics %}
-                    <div class="item">
+                    <div class="item cursor-pointer" data-id="{{dynamic.id}}">
                         <div class="d-flex py-4">
                             <div class="preview-list w-100">
                                 <div class="preview-item p-0">
@@ -116,10 +72,13 @@
                             <div class="flex-grow">
                                 <div class="d-flex d-md-block d-xl-flex justify-content-between">
                                     <h6 class="preview-subject">{{comment.user.username}}</h6>
-                                    <p class="text-muted text-small">{{comment.created_at|date:"Y-m-d"}}</p>
+                                    <p class="text-muted text-small">{{comment.created_at|time_ago}}</p>
                                 </div>
-                                <p class="text-muted">{{comment.content}}<a
-                                        href={{comment.dynamics_id}}>#{{comment.dynamics|slice:"0:10" }}</a></p>
+                                <p class="text-muted">{{comment.content}}
+                                    <a href="/index/?dynamics_id={{comment.dynamics_id}}">
+                                        #{{comment.dynamics|slice:"0:10" }}
+                                    </a>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -136,7 +95,7 @@
 
     {% block js_plugins %}
     <script src="{% static 'js/vendor.bundle.base.js' %}"></script>
-    <script src="{% static 'js/jquery-3.6.0.min' %}"></script>
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     {% endblock %}
     {% block js_for_thispage %}
     <script src="{% static 'js/Chart.min.js' %}"></script>
@@ -144,8 +103,8 @@
     <script src="{% static 'js/jquery-jvectormap.min.js' %}"></script>
     <script src="{% static 'js/jquery-jvectormap-world-mill-en.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/bulma_modal_show' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bulma_modal_show.js' %}"></script>
+    <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
     <script src="{% static 'js/hullabaloo.js' %}"></script>
     {% endblock %}
 
@@ -154,12 +113,37 @@
     {% endblock %}
     {% block js %}
     <script>
-        const $modal = $('#replymodal')
+        // const $hulla = new hullabaloo();#在父模板中已创建
+        const $modal = $('#replymodal');
         const btn_type = { "添加": "add", "聊天": "chat" };
-
+        const $send_input = $(".modal-bulma .send-input");
+        const $send_btn = $(".modal-bulma .send-btn");
+        const $comment_btn = $(".modal-bulma .comment-btn");
+        $(".modal-bulma .reply-btn").click(function () {
+            console.log($(this).data("user"))
+            $send_input.attr("placeholder", "回复" + $(this).data("user"));
+            $send_btn.attr("data-type", "reply");
+            $send_btn.attr("data-id", $(this).data("id"))
+            $send_btn.text("回复");
+        })
+        $comment_btn.click(function () {
+            $send_input.attr("placeholder", "发出你的第一条评论吧！");
+            $send_btn.attr("data-type", "send");
+            $send_btn.text("评论");
+        })
+        $send_btn.click(function (e) {
+            e.preventDefault();
+            listen_comment();
+        })
+        $(".owl-carousel .item").click(function () {
+            console.log($(this).data("id"));
+            $hulla.send("您点击了" + $(this).data("id") + "动态", "success");
+            location.href = "/index/?dynamics_id=" + $(this).data("id");
+        })
         $hulla.send("欢迎您的访问！", "success");
         $(function () {
             bindmodal();
+            listen_like();
         })
 
         var is_confirm = false;
@@ -237,6 +221,63 @@
                     }
                 })
             }
+        }
+        function listen_like() {
+            $like_btn = $(".modal-bulma .like-btn");
+            $love = $(".modal-bulma .love-sign");
+            $like_count = $(".modal-bulma .like-count");
+            id = $like_btn.data("id")
+            is_liked = "Y";
+            url = `/like/${id}`
+            $like_btn.click(function (e) {
+                if ($love.hasClass('love-color')) {
+                    //执行取消赞的逻辑
+                    $hulla.send("取消点赞成功", "success");
+                    $love.removeClass('love-color');
+                }
+                else {
+                    $hulla.send("点赞成功", "success");
+                    $love.addClass('love-color');
+                    is_liked = "N";
+                }
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { "is_liked": is_liked },
+                    success: function (res) {
+                        if (res.status) {
+                            like_count = res.like_count
+                            $like_count.text(`${like_count} Like `);
+                            is_liked = res.is_liked;
+                        }
+                    }
+                })
+            })
+
+        }
+        function listen_comment() {
+            var type = $send_btn.data("type");
+            var id = $send_btn.data("id");
+            var dynamics_id = parseUrl_by_key("dynamics_id")
+            var content = $send_input.val();
+            if (content.length === 0) {
+                $hulla.send("评论内容不能为空", "warning");
+                return;
+            }
+            $.ajax({
+                url: `/comment/${dynamics_id}`,
+                type: "POST",
+                dataType: "JSON",
+                data: { "content": content, "type": type, "parent_id": id },
+                success: function (res) {
+                    if (res.status) {
+                        $hulla.send("评论成功", "success");
+                        $send_input.val("");
+                        location.href = location.href;
+                    }
+                }
+            })
         }
     </script>
 

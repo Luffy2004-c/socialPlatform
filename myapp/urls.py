@@ -14,4 +14,6 @@ urlpatterns = [
     path("friend/accept/<int:id>", chat.friend_accept, name="friend-accept"),
     path("message/send/<int:id>", chat.send_message, name="send-message"),
     path("setting/", account.setting, name="setting"),
+    path("like/<int:id>", main.like, name="like"),
+    path("comment/<int:dynamics_id>", main.send_commend, name="commend-send"),
 ]

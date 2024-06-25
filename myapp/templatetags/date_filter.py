@@ -24,3 +24,13 @@ def time_ago(value):
             return f"{hours} {'hour' if hours == 1 else 'hours'} ago"
     except Exception as e:
         return value
+
+
+@register.filter
+def times(value):
+    if not value:
+        return ""
+    try:
+        return len(value)
+    except Exception as e:
+        return value

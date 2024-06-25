@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeAllModals() {
-        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+        (document.querySelectorAll('.modal-bulma') || []).forEach(($modal) => {
             closeModal($modal);
         });
     }
 
     // Add a click event on buttons to open a specific modal
-    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+    (document.querySelectorAll('.js-modal-trigger-bulma') || []).forEach(($trigger) => {
         const modal = $trigger.dataset.target;
         const $target = document.getElementById(modal);
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Add a click event on various child elements to close the parent modal
-    (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+    (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot') || []).forEach(($close) => {
         const $target = $close.closest('.modal');
 
         $close.addEventListener('click', () => {

@@ -54,9 +54,9 @@ class User(BaseModel, AbstractUser):
         return friend_list
 
     def get_recent_messages(self) -> List["PrivateMessage"]:
-        messages = PrivateMessage.objects.filter(recipient=self).order_by(
-            "-created_at"
-        )[:4]
+        messages = PrivateMessage.objects.filter(recipient=self).order_by("-send_at")[
+            :4
+        ]
         return messages
 
     def get_friendApplicationList(self) -> List[User] | None:
@@ -112,12 +112,19 @@ class Dynamics(BaseModel, models.Model):
         on_delete=models.CASCADE,
     )
     likes = models.ManyToManyField(User, related_name="like_dynamics", through="Like")
+    image = models.ImageField(upload_to="dynamics/", blank=True)
 
     def get_likes_count(self) -> int:
         """
         获取点赞数
         """
         return self.likes.count()
+
+    def get_comments_count(self) -> int:
+        """
+        获取评论数
+        """
+        return self.get_all_comments().count()
 
     def get_like_users(self) -> List[User]:
         """
@@ -151,6 +158,34 @@ class Dynamics(BaseModel, models.Model):
             self.likes.remove(user)
         else:
             self.likes.add(user)
+
+    def get_all_tags(self):
+        return self.tags.all()
+
+    def InformationPackaging(
+        self,
+    ) -> Dict[str, Union[User, "Comment", int, "Like", "Tag"]]:
+        return {
+            "tags": self.get_all_tags(),
+            "like_user": self.get_like_users(),
+            "likes_count": self.get_likes_count(),
+            "comments": self.commentDivise(),
+            "comments_count": self.get_comments_count(),
+        }
+
+    def commentDivise(self):
+        parent_comments = (
+            self.get_all_comments().filter(parent__isnull=True).order_by("-created_at")
+        )
+        return list(
+            map(
+                lambda comment: {"parent": comment, "childs": comment.get_replies()},
+                parent_comments,
+            )
+        )
+
+    def is_like_user(self, user: User):
+        return user in self.likes.all()
 
     def __str__(self):
         return f"{self.user} - {self.content}"
@@ -282,8 +317,17 @@ class Comment(BaseModel, models.Model):
     def __str__(self):
         return f"{self.user} commented on {self.dynamics}:{self.content}"
 
-    def get_replies(self):
-        return Comment.objects.filter(parent=self).order_by("-created_at")
+    def get_replies(self) -> List["Comment"]:
+        comment_list: List["Comment"] = []
+
+        def _get_replies(comment):
+            replies = Comment.objects.filter(parent=comment).order_by("-created_at")
+            for reply in replies:
+                comment_list.append(reply)
+                _get_replies(reply)
+
+        _get_replies(self)
+        return comment_list
 
     class Meta:
         verbose_name = "评论"
