@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block plugin_css %}
-<link rel="stylesheet" href="{% static 'css/jquery-jvectormap.css' %}">
 <link rel="stylesheet" href="{% static 'css/flag-icon.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
@@ -16,7 +15,6 @@
 <link href="{% static 'css/style_modal.css'%}" rel="stylesheet">
 <link href="{% static 'css/bulma.min.css'%}" rel="stylesheet">
 {% endblock %}
-
 {% block main %}
 <div class="row">
     <div class="col-md-12 col-xl-8 grid-margin stretch-card">
@@ -25,15 +23,16 @@
             <div class="card-body">
                 <h4 class="card-title">动态</h4>
 
-                <div class="owl-carousel owl-theme full-width owl-carousel-dash portfolio-carousel"
+                <div class="owl-carousel owl-theme full-width owl-carousel-dash portfolio-carousel "
                     id="owl-carousel-basic">
                     {% for dynamic in dynamics %}
-                    <div class="item cursor-pointer" data-id="{{dynamic.id}}">
-                        <div class="d-flex py-4">
+                    <div class="item cursor-pointer w-full" data-id="{{dynamic.id}}">
+                        <div class="d-flex py-4   w-100">
                             <div class="preview-list w-100">
                                 <div class="preview-item p-0">
-                                    <div class="preview-thumbnail">
-                                        <img src="{% static 'picture/luffy.jpg'%}" class="rounded-circle" alt="">
+                                    <div class="preview-thumbnail flex-shrink-0">
+                                        <img src="{{MEDIA_URL}}{{dynamic.user.avatar}}"
+                                            class="rounded-circle  w-16 h-16" alt="">
                                     </div>
                                     <div class="preview-item-content d-flex flex-grow">
                                         <div class="flex-grow">
@@ -47,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="{% static 'picture/img_6.jpg' %}" alt="">
+                        <img src="{{MEDIA_URL}}{{dynamic.image}}" alt="">
                     </div>
                     {% endfor %}
                 </div>
@@ -96,15 +95,15 @@
     {% block js_plugins %}
     <script src="{% static 'js/vendor.bundle.base.js' %}"></script>
     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     {% endblock %}
     {% block js_for_thispage %}
-    <script src="{% static 'js/Chart.min.js' %}"></script>
     <script src="{% static 'js/progressbar.min.js' %}"></script>
     <script src="{% static 'js/jquery-jvectormap.min.js' %}"></script>
     <script src="{% static 'js/jquery-jvectormap-world-mill-en.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>//轮播
     <script src="{% static 'js/bulma_modal_show.js' %}"></script>
-    <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+
     <script src="{% static 'js/hullabaloo.js' %}"></script>
     {% endblock %}
 

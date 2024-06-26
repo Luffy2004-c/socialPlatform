@@ -16,4 +16,5 @@ urlpatterns = [
     path("setting/", account.setting, name="setting"),
     path("like/<int:id>", main.like, name="like"),
     path("comment/<int:dynamics_id>", main.send_commend, name="commend-send"),
+    path("dynamics/release", main.dynamics_release, name="dynamic-release"),
 ]

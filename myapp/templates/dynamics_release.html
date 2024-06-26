@@ -41,11 +41,11 @@
 {% endblock %}
 {% block main %}
 <div class="page-header">
-    <h3 class="page-title"> User Setting </h3>
+    <h3 class="page-title"> 动态发布</h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Setting</a></li>
-            <li class="breadcrumb-item active" aria-current="page">User</li>
+            <li class="breadcrumb-item"><a href="#">Dynamics </a></li>
+            <li class="breadcrumb-item active" aria-current="page">release</li>
         </ol>
     </nav>
 </div>
@@ -53,37 +53,26 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">User Setting </h4>
+                <h4 class="card-title">动态 发布</h4>
                 <p class="card-description"> </p>
-                <form action="{% url 'setting' %}" method="post" class="forms-sample" enctype="multipart/form-data">
+                <form action="{% url 'dynamic-release' %}" method="post" class="forms-sample"
+                    enctype="multipart/form-data">
                     {% csrf_token %}
 
                     <div class="form-group">
-                        <label for="exampleInputName1">{{form.username.label}}</label>
-                        {{form.username}}
+                        <label for="exampleInputName1">{{form.content.label}}</label>
+                        {{form.content}}
                     </div>
 
                     <div class="form-group">
-                        <label>{{form.email.label}}</label>
-                        {{form.email}}
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="exampleSelectGender">{{form.gender.label}}</label>
-                        {{form.gender}}
+                        <label for="exampleSelectispublic">{{form.is_public.label}}</label>
+                        {{form.is_public}}
                     </div>
                     <div class="form-group">
-                        <label>{{form.avatar.label}}</label>
-                        {{form.avatar}}
-
+                        <label>{{form.image.label}}</label>
+                        {{form.image}}
                     </div>
-                    <div class="form-group">
-                        <label for="exampleTextarea1">{{form.desc.label}}</label>
-                        {{form.desc}}
-                    </div>
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-dark">Cancel</button>
+                    <button type="submit" class="btn btn-primary mr-2">发布</button>
                 </form>
             </div>
         </div>
@@ -102,7 +91,6 @@
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 {% endblock %}
 {% block js_for_thispage %}
-<script src="{% static 'js/Chart.min.js' %}"></script>
 <script src="{% static 'js/progressbar.min.js' %}"></script>
 <script src="{% static 'js/jquery-jvectormap.min.js' %}"></script>
 <script src="{% static 'js/jquery-jvectormap-world-mill-en.js' %}"></script>

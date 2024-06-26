@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+from myapp.forms.dynamics__form import DynamicsModelForm
 
 
 def index(request):
@@ -76,3 +77,17 @@ def send_commend(request, dynamics_id):
             data.update(parent_id=request.POST.get("parent_id", None))
         Comment.objects.create(**data, content=content)
         return JsonResponse({"status": True})
+
+
+@csrf_exempt
+def dynamics_release(request):
+    user = request.tracer["user"]
+    if request.method == "GET":
+        form = DynamicsModelForm()
+        return render(request, "dynamics_release.html", {"form": form})
+    else:
+        form = DynamicsModelForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.instance.user = user
+            form.save()
+            return redirect("index")

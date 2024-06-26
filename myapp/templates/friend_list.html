@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block plugin_css %}
-<link rel="stylesheet" href="{% static 'css/jquery-jvectormap.css' %}">
 <link rel="stylesheet" href="{% static 'css/flag-icon.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
@@ -115,22 +114,15 @@
 
 
 {% block js_plugins %}
-<script src="{% static 'js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'js/vendor.bundle.base.js' %}"></script>//顶部挑选
 {% endblock %}
 {% block js_for_thispage %}
-<script src="{% static 'js/progressbar.min.js' %}"></script>
-<script src="{% static 'js/jquery-jvectormap.min.js' %}"></script>
-<script src="{% static 'js/jquery-jvectormap-world-mill-en.js' %}"></script>
-<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'js/bulma_modal_show' %}"></script>
+<script src="{% static 'js/bulma_modal_show.js' %}"></script>
 {% endblock %}
 
 {% block js_inject %}
-<script src="{% static 'js/off-canvas.js' %}"></script>
-<script src="{% static 'js/hoverable-collapse.js' %}"></script>
-<script src="{% static 'js/misc.js' %}"></script>
-<script src="{% static 'js/settings.js' %}"></script>
-<script src="{% static 'js/todolist.js' %}"></script>
+<script src="{% static 'js/misc.js' %}"></script>//复选框
+
 {% endblock %}
 {% block js_constom %}
 {% endblock %}
